@@ -13,7 +13,7 @@
 package map;
 import edu.princeton.cs.introcs.*;
 import java.io.File;
-import java.util.Scanner;
+import java.util.*;
 /**
  *
  * @author 
@@ -21,39 +21,38 @@ import java.util.Scanner;
 public class PoliticalMap {
     public static void main(String[] args) throws Exception{
         
-     File file = new File("src/map/bama.txt");
+     File file = new File("src/map/USA.txt");
      Scanner scan = new Scanner(file);
-     double latitude; // (φ)
-     double longitude;   // (λ)
-     double mapWidth = 200;
-     double mapHeight = 100;
-     StdDraw.setCanvasSize(200,200);
-     StdDraw.setXscale( 50.9, 51.3);
-     StdDraw.setYscale(32.3, 33);
-     double latRad;
-     double mercN;
-     double[] x = new double[20];
-     double[] y = new double[20];     
+     double minX = scan.nextDouble(); 
+     double minY = scan.nextDouble(); 
+     double mostX = scan.nextDouble(); 
+     double mostY = scan.nextDouble(); 
+     StdDraw.setCanvasSize(1000, 700);
+     StdDraw.setXscale(minX, mostX);
+     StdDraw.setYscale(minY, mostY);
+     double[] x;
+     double[] y;     
+     int terNum;
      int i = 0;
+
+ 
      
      while(scan.hasNext()){
-         longitude = scan.nextDouble();
-         latitude = scan.nextDouble();
-         scan.nextLine();
+         try{
+             terNum = scan.nextInt();
+             x = new double[terNum];
+             y = new double[terNum];
+             for(i = 0; i < terNum; i++){
+                scan.nextLine();
+                x[i] = scan.nextDouble();
+                y[i] = scan.nextDouble();
+             }
+             StdDraw.polygon(x, y);
+             
+         }catch(InputMismatchException e){
+            scan.nextLine();
+         }
          
-        // get x value
-        x[i] = (longitude+180)*(mapWidth/360);
-
-        // convert from degrees to radians
-        latRad = latitude*(Math.PI)/180;
-
-        // get y value
-        mercN = Math.log(Math.tan(((Math.PI)/4)+(latRad/2)));
-        y[i] = (mapHeight/2)-(mapWidth*mercN/(2*(Math.PI)));
-        i++;
-     }    
-        StdDraw.setPenColor(StdDraw.BLACK);
-        StdDraw.filledPolygon(x, y);
-
+    }
     }
 }
