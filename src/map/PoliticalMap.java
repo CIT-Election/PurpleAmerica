@@ -27,17 +27,36 @@ public class PoliticalMap {
      double minY = scan.nextDouble(); 
      double mostX = scan.nextDouble(); 
      double mostY = scan.nextDouble(); 
-     StdDraw.setCanvasSize(1000, 700);
+     StdDraw.setCanvasSize(1100, 700);
      StdDraw.setXscale(minX, mostX);
      StdDraw.setYscale(minY, mostY);
      double[] x;
      double[] y;     
      int terNum;
      int i = 0;
-
+     StdDraw.setPenColor(StdDraw.BLUE);
  
      
      while(scan.hasNext()){
+         try{
+             terNum = scan.nextInt();
+             x = new double[terNum];
+             y = new double[terNum];
+             for(i = 0; i < terNum; i++){
+                scan.nextLine();
+                x[i] = scan.nextDouble();
+                y[i] = scan.nextDouble();
+             }
+             StdDraw.filledPolygon(x, y);
+             
+         }catch(InputMismatchException e){
+            scan.nextLine();
+         }
+         
+    }
+     scan = new Scanner(file);
+     StdDraw.setPenColor(StdDraw.BLACK);
+          while(scan.hasNext()){
          try{
              terNum = scan.nextInt();
              x = new double[terNum];
@@ -54,5 +73,6 @@ public class PoliticalMap {
          }
          
     }
+     
     }
 }
