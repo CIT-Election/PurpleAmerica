@@ -57,7 +57,6 @@ public class mapMake {
     String state;
     int p = 0;
     int stateNum;
-    String[] stateAry;
     int voteNum;
     
     public void mapColor() throws FileNotFoundException{
@@ -65,14 +64,11 @@ public class mapMake {
         scan.nextLine();
         scan.nextLine();
         stateNum = scan.nextInt();
-        stateAry = new String[stateNum];
         scan.nextLine();        
         scan.nextLine();
         while(scan.hasNext()){
             try{
                 state = scan.nextLine();
-                stateAry[p] = state;
-                p++;
                 scan.nextLine();
                 terNum = scan.nextInt();
                 x = new double[terNum];
@@ -82,7 +78,7 @@ public class mapMake {
                     x[i] = scan.nextDouble();
                     y[i] = scan.nextDouble();
                 }
-                
+                i = 0;
                 for(i=0; i < stateName.length; i++){
                     if(state.equals(stateName[i])){
                         voteNum = i;

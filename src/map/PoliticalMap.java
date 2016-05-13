@@ -21,7 +21,7 @@ import java.util.*;
 public class PoliticalMap {
     public static void main(String[] args) throws Exception{
         
-    File file = new File("src/map/USA.txt");
+    File file = new File("src/data/USA.txt");
     File elect = new File("src/data/USA2012.txt");
    
     mapMake map = new mapMake(file, elect);  
