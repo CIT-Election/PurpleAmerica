@@ -38,6 +38,7 @@ public class mapMake {
     int[][] votes;             
      double sum;
      File election;
+     String year = "2012";
     
     public mapMake(File f, File e) throws FileNotFoundException{
      scan = new Scanner(f);
@@ -55,9 +56,11 @@ public class mapMake {
     }
     
     String state;
+    String county;
     int p = 0;
     int stateNum;
     int voteNum;
+    File file2;
     
     public void mapColor() throws FileNotFoundException{
         scan = new Scanner(file);
@@ -69,7 +72,9 @@ public class mapMake {
         while(scan.hasNext()){
             try{
                 state = scan.nextLine();
-                scan.nextLine();
+                county = scan.nextLine();
+                file2 = new File("src/data/" + county + year + ".txt");
+                getVotes(file2);
                 terNum = scan.nextInt();
                 x = new double[terNum];
                 y = new double[terNum];

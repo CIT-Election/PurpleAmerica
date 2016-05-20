@@ -21,14 +21,13 @@ import java.util.*;
 public class PoliticalMap {
     public static void main(String[] args) throws Exception{
         
-    File file = new File("src/data/USA.txt");
+    File file = new File("src/data/USA-county.txt");
     File elect = new File("src/data/USA2012.txt");
    
     mapMake map = new mapMake(file, elect);  
-    map.getVotes(elect);
+    //map.getVotes(elect);
     map.mapColor();
     map.mapBorder();
-    //HELLO WORLD
 
 
      
