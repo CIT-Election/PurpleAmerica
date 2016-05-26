@@ -7,6 +7,7 @@
 package map;
 
 import edu.princeton.cs.introcs.StdDraw;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
@@ -158,8 +159,13 @@ public class CountiesMap {
             scan.nextLine();
          }
          
-        }  
+        }
+        
+        System.out.println("Finished drawing");
+        
+        
 
-    }   
+    }
+   
     
 }

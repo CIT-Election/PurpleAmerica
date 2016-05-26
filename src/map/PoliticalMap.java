@@ -29,7 +29,7 @@ public class PoliticalMap {
         "MT","NC","ND","NE","NH","NJ","NM","NV","NY","OH","OK","OR","PA","RI",
         "SC","SD","TN","TX","UT","VA","VT","WA","WI","WV","WY"}; 
         //array with all the names of the States' abbreviations
-    String finalYear = ""; 
+    String finalYear = ""; //user input
     Scanner sc = new Scanner(System.in); 
     boolean isInputvalid = false; 
     while(!isInputvalid){
@@ -93,5 +93,31 @@ public class PoliticalMap {
             isLoui = false;
         } 
     }
+    
+    boolean clicked = false;
+    double xCoordinate, yCoordinate;
+    while (!clicked) { 
+        if (StdDraw.mousePressed()){
+            xCoordinate = StdDraw.mouseX();
+            yCoordinate = StdDraw.mouseY();
+            clicked = true;
+            
+           if(counties){
+                for (int i=0;i<strState.length;i++){
+                    if(strState[i].equals("LA")){
+                        isLoui = true;
+                    }
+                    StdDraw.setCanvasSize(1100, 700);
+                    File countyFile = new File ("src/data/" + strState[i]+ ".txt");
+                    File countyVotes = new File ("src/data/"+ strState[i]+ finalYear);
+                    CountiesMap county = new CountiesMap(countyFile,countyVotes); 
+                    county.getVotes(countyVotes, isLoui);
+                    county.mapColor(); 
+                    //county.mapBorder();
+                    isLoui = false;
+                } 
+            } 
+        }
+    } 
   }
 }
