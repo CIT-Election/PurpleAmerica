@@ -28,7 +28,14 @@ public class PoliticalMap {
         "IA","ID","IL","IN","KS","KY","LA","MA","MD","ME","MI","MN","MO","MS",
         "MT","NC","ND","NE","NH","NJ","NM","NV","NY","OH","OK","OR","PA","RI",
         "SC","SD","TN","TX","UT","VA","VT","WA","WI","WV","WY"}; 
-        //array with all the names of the States' abbreviations
+        //array with all the names of the States' abbreviation
+    
+    double[] stateMinX = new double[48];
+    double[] stateMaxX = new double[48]; 
+    double[] stateMinY = new double [48]; 
+    double[] stateMaxY = new double[48];
+    //4 arrays to store coordiates of each state
+    
     String finalYear = ""; //user input
     Scanner sc = new Scanner(System.in); 
     boolean isInputvalid = false; 
@@ -95,29 +102,57 @@ public class PoliticalMap {
     }
     
     boolean clicked = false;
+    boolean stateFound = false;
+    int k = 0; //variable to find state coordinates
     double xCoordinate, yCoordinate;
+    for (int j = 0; j < 48; j++) { 
+        File stateFile = new File ("src/data/" + strState[j]+ ".txt");
+        Scanner scan = new Scanner(stateFile);
+        stateMinX[j] = scan.nextDouble();
+        stateMaxX[j] = scan.nextDouble();
+        stateMinY[j] = scan.nextDouble();  
+        stateMaxY[j] = scan.nextDouble();
+    }//scans text docs and stores the boundary coordinates in separate arrays
+    
     while (!clicked) { 
         if (StdDraw.mousePressed()){
             xCoordinate = StdDraw.mouseX();
             yCoordinate = StdDraw.mouseY();
+            System.out.println(xCoordinate);
+            System.out.println(yCoordinate);
             clicked = true;
-            
-           if(counties){
-                for (int i=0;i<strState.length;i++){
-                    if(strState[i].equals("LA")){
-                        isLoui = true;
-                    }
-                    StdDraw.setCanvasSize(1100, 700);
-                    File countyFile = new File ("src/data/" + strState[i]+ ".txt");
-                    File countyVotes = new File ("src/data/"+ strState[i]+ finalYear);
-                    CountiesMap county = new CountiesMap(countyFile,countyVotes); 
-                    county.getVotes(countyVotes, isLoui);
-                    county.mapColor(); 
-                    //county.mapBorder();
-                    isLoui = false;
+            k = 0;
+            while (!stateFound && k < 48) { 
+                if (xCoordinate >= stateMinX[k] && xCoordinate <= stateMaxX[k]) { 
+                    if (yCoordinate >= stateMinY[k] && yCoordinate <= stateMaxY[k]) { 
+                        stateFound = true;
+                    } 
+                }
+                else { 
+                 k++;   
                 } 
-            } 
-        }
+            }//Finds the state of the clicked coordinate
+            if(strState[k].equals("LA")){
+                isLoui = true;
+            }
+            
+            File drawState = new File ("src/data/" + strState[k]+ ".txt");
+            File stateVotes = new File ("src/data/"+ strState[k]+ finalYear);
+                        
+            CountiesMap bigState = new CountiesMap(drawState,stateVotes);
+            
+            StdDraw.setCanvasSize(1100, 700); //redraws canva(window)
+             
+            StdDraw.setXscale(stateMinX[k]  , stateMaxX[k]);
+            StdDraw.setYscale(stateMinY[k]  , stateMaxY[k] );
+            //StdDraw.setScale(-.05, 1.05);
+            bigState.getVotes(stateVotes, isLoui);
+            
+            bigState.mapBorder();
+            bigState.mapColor();
+      
+            isLoui = false;
+      }
     } 
   }
 }

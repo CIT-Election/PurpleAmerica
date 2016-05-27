@@ -159,13 +159,8 @@ public class CountiesMap {
             scan.nextLine();
          }
          
-        }
+        }    
         
-        System.out.println("Finished drawing");
-        
-        
-
     }
-   
     
 }
