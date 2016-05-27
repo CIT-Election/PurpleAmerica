@@ -169,8 +169,8 @@ public class PoliticalMap {
                         
             CountiesMap bigState = new CountiesMap(drawState,stateVotes);
             
-            StdDraw.setCanvasSize(1100, 700); //redraws canva(window)
-             
+            StdDraw.setCanvasSize(1100, 700); //redraws canvas(window)
+            
             StdDraw.setXscale(stateMinX[k]  , stateMaxX[k]);
             StdDraw.setYscale(stateMinY[k]  , stateMaxY[k] );
             //StdDraw.setScale(-.05, 1.05);
