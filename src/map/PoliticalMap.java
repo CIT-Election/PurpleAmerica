@@ -42,17 +42,26 @@ public class PoliticalMap {
         "IA","ID","IL","IN","KS","KY","LA","MA","MD","ME","MI","MN","MO","MS",
         "MT","NC","ND","NE","NH","NJ","NM","NV","NY","OH","OK","OR","PA","RI",
         "SC","SD","TN","TX","UT","VA","VT","WA","WI","WV","WY"}; 
-        //array with all the names of the States' abbreviations
-    String finalYear = ""; 
+        //array with all the names of the States' abbreviation
+    
+    double[] stateMinX = new double[48];
+    double[] stateMaxX = new double[48]; 
+    double[] stateMinY = new double[48]; 
+    double[] stateMaxY = new double[48];
+    //4 arrays to store coordiates of each state
+    
+    String finalYear = ""; //user input
     Scanner sc = new Scanner(System.in); //Initializes a scanner 
-    String fInput = ""; 
+  
+   String fInput = ""; 
     boolean isInputv = false; 
     
     while(!isInputv){ //loops until a valid input is received 
         System.out.println("Would you like to see Presidential Election or Senator Election? (Presidential/Senator)"); 
         try{ //tries to see if the input is Senator, if it is then it draws the senator map 
             fInput = sc.next(); 
-            if(fInput.equals("Senator")){ //Checks if it is senator 
+            fInput = fInput.toUpperCase();
+            if(fInput.equals("SENATOR")){ //Checks if it is senator 
                 isInputv = true; 
                 File elect2 = new File("src/data/Senate2012.txt"); 
                 mapMake map2 = new mapMake(file, elect2);//creates mapmake object
@@ -61,14 +70,15 @@ public class PoliticalMap {
                 map2.mapBorder();
             }   
             
-            if(fInput.equals("Presidential")){ //If it is presidential, then it exits the loop and continues through the program
+            if(fInput.equals("PRESIDENTIAL")){ //If it is presidential, then it exits the loop and continues through the program
                 isInputv = true; 
             }
         } catch (InputMismatchException e){ //Catches the InputMismatchException
             System.out.println("That is not a valid input. Please try again."); 
         }
-    }
+    } 
         
+   
     boolean isInputvalid = false; 
     while(!isInputvalid){ //Loops until the input is valid 
         System.out.println("Enter the year that you would like to see: ");
@@ -110,8 +120,6 @@ public class PoliticalMap {
         counties = true;
     }
     
-
-
     if(!counties){//if they dont want to see counties just show states
         map.getVotes(elect);
         map.mapColor();
@@ -159,15 +167,67 @@ public class PoliticalMap {
         }
     }
     
-
+    boolean clicked = false;
+    boolean stateFound = false;
+    int k = 0; //variable to find state coordinates
+    double xCoordinate, yCoordinate;
+    for (int j = 0; j < 48; j++) { 
+        File stateFile = new File ("src/data/" + strState[j]+ ".txt");
+        Scanner scan = new Scanner(stateFile);
+        stateMinX[j] = scan.nextDouble();
+        stateMaxX[j] = scan.nextDouble();
+        stateMinY[j] = scan.nextDouble();  
+        stateMaxY[j] = scan.nextDouble();
+    }//scans text docs and stores the boundary coordinates in separate arrays
     
-    }
+    while (!clicked) { 
+        if (StdDraw.mousePressed()){
+            xCoordinate = StdDraw.mouseX();
+            yCoordinate = StdDraw.mouseY();
+            System.out.println(xCoordinate);
+            System.out.println(yCoordinate);
+            
+            k = 0;
+           
+            while (!stateFound && k < 48  ) { 
+                if (xCoordinate > stateMinX[k] && xCoordinate < stateMaxX[k]  && 
+                    yCoordinate > stateMinY[k] && yCoordinate < stateMaxY[k] )
+                {
+                        stateFound = true;
+                        clicked = true;
+                        System.out.println("State identified :" + strState[k]);
+                }  
+                else {        
+                    k++;   
+                }
+            }//Finds the state of the clicked coordinate
+            
+            if(strState[k].equals("LA")){
+                isLoui = true;
+            }
+            
+            File drawState = new File ("src/data/" + strState[k]+ ".txt");
+            File stateVotes = new File ("src/data/"+ strState[k]+ finalYear);
+                        
+            
+           
+       //draws clicked state    
+       StdDraw.setCanvasSize(1100, 700); //redraws canvas(window)
+       StdDraw.setXscale(stateMinX[k] , stateMaxX[k]);
+       StdDraw.setYscale(stateMinY[k] , stateMaxY[k]);
+        mapMake mapS = new mapMake(drawState, stateVotes);
+        mapS.getVotes(stateVotes);
+        mapS.mapColor();
+        mapS.mapBorder();
+                    
+            isLoui = false;
+      }
+    } 
+  }
     
     
-
     
     
     
     
-    
-    }
+} 

@@ -1,7 +1,10 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Sreepradha, Bashir, Ethan 
+ * Class Name: mapMake  
+ * Methods: 
+ * mapColor() : Sets RGB for printed state
+ * getVotes() : tallies Democratic, Republican and Indipendent votes 
+ * mapBorder(): Draws borderlines for each of the counties 
  */
 
 package map;
