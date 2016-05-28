@@ -1,8 +1,10 @@
 /*
- * Sreepradha, Bashir, Eathan 
- * Class Name: mapMake 
- * Variables: 
+ * Sreepradha, Bashir, Ethan 
+ * Class Name: mapMake  
  * Methods: 
+ * mapColor() : Sets RGB for printed state
+ * getVotes() : tallies Democratic, Republican and Indipendent votes 
+ * mapBorder(): Draws borderlines for each of the counties 
  */
 
 package map;

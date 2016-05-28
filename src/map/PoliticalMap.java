@@ -46,21 +46,22 @@ public class PoliticalMap {
     
     double[] stateMinX = new double[48];
     double[] stateMaxX = new double[48]; 
-    double[] stateMinY = new double [48]; 
+    double[] stateMinY = new double[48]; 
     double[] stateMaxY = new double[48];
     //4 arrays to store coordiates of each state
     
     String finalYear = ""; //user input
     Scanner sc = new Scanner(System.in); //Initializes a scanner 
   
-    String fInput = ""; 
+   String fInput = ""; 
     boolean isInputv = false; 
     
     while(!isInputv){ //loops until a valid input is received 
         System.out.println("Would you like to see Presidential Election or Senator Election? (Presidential/Senator)"); 
         try{ //tries to see if the input is Senator, if it is then it draws the senator map 
             fInput = sc.next(); 
-            if(fInput.equals("Senator")){ //Checks if it is senator 
+            fInput = fInput.toUpperCase();
+            if(fInput.equals("SENATOR")){ //Checks if it is senator 
                 isInputv = true; 
                 File elect2 = new File("src/data/Senate2012.txt"); 
                 mapMake map2 = new mapMake(file, elect2);//creates mapmake object
@@ -69,14 +70,15 @@ public class PoliticalMap {
                 map2.mapBorder();
             }   
             
-            if(fInput.equals("Presidential")){ //If it is presidential, then it exits the loop and continues through the program
+            if(fInput.equals("PRESIDENTIAL")){ //If it is presidential, then it exits the loop and continues through the program
                 isInputv = true; 
             }
         } catch (InputMismatchException e){ //Catches the InputMismatchException
             System.out.println("That is not a valid input. Please try again."); 
         }
-    }
+    } 
         
+   
     boolean isInputvalid = false; 
     while(!isInputvalid){ //Loops until the input is valid 
         System.out.println("Enter the year that you would like to see: ");
@@ -184,18 +186,22 @@ public class PoliticalMap {
             yCoordinate = StdDraw.mouseY();
             System.out.println(xCoordinate);
             System.out.println(yCoordinate);
-            clicked = true;
+            
             k = 0;
-            while (!stateFound && k < 48) { 
-                if (xCoordinate >= stateMinX[k] && xCoordinate <= stateMaxX[k]) { 
-                    if (yCoordinate >= stateMinY[k] && yCoordinate <= stateMaxY[k]) { 
+           
+            while (!stateFound && k < 48  ) { 
+                if (xCoordinate > stateMinX[k] && xCoordinate < stateMaxX[k]  && 
+                    yCoordinate > stateMinY[k] && yCoordinate < stateMaxY[k] )
+                {
                         stateFound = true;
-                    } 
+                        clicked = true;
+                        System.out.println("State identified :" + strState[k]);
+                }  
+                else {        
+                    k++;   
                 }
-                else { 
-                 k++;   
-                } 
             }//Finds the state of the clicked coordinate
+            
             if(strState[k].equals("LA")){
                 isLoui = true;
             }
@@ -203,20 +209,25 @@ public class PoliticalMap {
             File drawState = new File ("src/data/" + strState[k]+ ".txt");
             File stateVotes = new File ("src/data/"+ strState[k]+ finalYear);
                         
-            CountiesMap bigState = new CountiesMap(drawState,stateVotes);
             
-            StdDraw.setCanvasSize(1100, 700); //redraws canvas(window)
-            
-            StdDraw.setXscale(stateMinX[k]  , stateMaxX[k]);
-            StdDraw.setYscale(stateMinY[k]  , stateMaxY[k] );
-            //StdDraw.setScale(-.05, 1.05);
-            bigState.getVotes(stateVotes, isLoui);
-            
-            bigState.mapBorder();
-            bigState.mapColor();
-      
+           
+       //draws clicked state    
+       StdDraw.setCanvasSize(1100, 700); //redraws canvas(window)
+       StdDraw.setXscale(stateMinX[k] , stateMaxX[k]);
+       StdDraw.setYscale(stateMinY[k] , stateMaxY[k]);
+        mapMake mapS = new mapMake(drawState, stateVotes);
+        mapS.getVotes(stateVotes);
+        mapS.mapColor();
+        mapS.mapBorder();
+                    
             isLoui = false;
       }
     } 
   }
+    
+    
+    
+    
+    
+    
 } 
