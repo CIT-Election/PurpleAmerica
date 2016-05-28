@@ -1,17 +1,28 @@
 /*
  * Political Map Project
- * Name: 
- * Block:
+ * Name: Bashir, Sree, Ethan 
+ * Block: 6
  * 
  * Program Purpose:
- *
- * Algorithm:
+ *This program's purpose is to illustrate the election data visually on a map. 
+ *It does this by taking in the voting data and using an equation to generate the 
+ *RGB that is associated with it. Then the map is genenrated with or without the 
+ *counties and then is drawn. It is then filled in the correct RGB. The final result
+ *will be a map of the US with colors representing the election data. 
  * 
- * Future/possible improvements:
+ * Algorithm:
+ * Our algorithm was to modularize as much as possible and we made multiple classes
+ * to store different methods. For example, we have one class for the counties separate 
+ * from the one that draws the map without the counties. 
  *
+ * Future/possible improvements:
+ * One improvement we could've made was to comment and communicate much more on GIT Hub. 
+ * Our communication was very poor and we didn't utilize the tools that GIT Hub has. 
+ * We should've commented our code much earlier so that other members could use and 
+ * comprehend that code. 
  */
 package map;
-import edu.princeton.cs.introcs.*;
+import edu.princeton.cs.introcs.*; //Imports 
 import java.io.File;
 import java.util.*;
 /**
@@ -40,18 +51,43 @@ public class PoliticalMap {
     //4 arrays to store coordiates of each state
     
     String finalYear = ""; //user input
-    Scanner sc = new Scanner(System.in); 
+    Scanner sc = new Scanner(System.in); //Initializes a scanner 
+  
+    String fInput = ""; 
+    boolean isInputv = false; 
+    
+    while(!isInputv){ //loops until a valid input is received 
+        System.out.println("Would you like to see Presidential Election or Senator Election? (Presidential/Senator)"); 
+        try{ //tries to see if the input is Senator, if it is then it draws the senator map 
+            fInput = sc.next(); 
+            if(fInput.equals("Senator")){ //Checks if it is senator 
+                isInputv = true; 
+                File elect2 = new File("src/data/Senate2012.txt"); 
+                mapMake map2 = new mapMake(file, elect2);//creates mapmake object
+                map2.getVotes(elect);
+                map2.mapColor();
+                map2.mapBorder();
+            }   
+            
+            if(fInput.equals("Presidential")){ //If it is presidential, then it exits the loop and continues through the program
+                isInputv = true; 
+            }
+        } catch (InputMismatchException e){ //Catches the InputMismatchException
+            System.out.println("That is not a valid input. Please try again."); 
+        }
+    }
+        
     boolean isInputvalid = false; 
-    while(!isInputvalid){
+    while(!isInputvalid){ //Loops until the input is valid 
         System.out.println("Enter the year that you would like to see: ");
         int year = sc.nextInt(); 
-        try {
+        try { //Trys to see if the input is between the valid years 
 
             if(year >= 1960 && year <= 2012){
                 isInputvalid = true; 
-                if(year % 4 == 0){
+                if(year % 4 == 0){ //Checks if the year is divisible by 4, only years that are divisible by 4 are correct
                         isInputvalid = true; 
-                         finalYear = year + ".txt";  
+                         finalYear = year + ".txt";  //Adds the year to be properly formatted for the file name 
                     } else {
                         System.out.println("That is not a valid input");
                         System.out.println("Your options are: 1960, 1964, 1968, 1972, 1976, 1980, 1992, 1996, 2000, 2004, 2008, 2012"); 
@@ -63,7 +99,7 @@ public class PoliticalMap {
                 isInputvalid = false; 
             }
 
-        } catch (InputMismatchException e){
+        } catch (InputMismatchException e){ //Catches the InputMismatchException 
             System.out.println("That is not a valid input"); 
             System.out.println("Your options are: 1960, 1964, 1968, 1972, 1976, 1980, 1992, 1996, 2000, 2004, 2008, 2012");
             
@@ -112,7 +148,7 @@ public class PoliticalMap {
     }    
     
     while(go){
-        System.out.println("Ok. Enter an eleciton year past 1980.");
+        System.out.println("Ok. Enter an election year past 1980.");
         int r = sc.nextInt();
         try{    
             if(r > 1979 && r < 2015 && r%2 == 0 ){//checks to see election year is available

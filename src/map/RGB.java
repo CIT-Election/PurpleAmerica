@@ -23,7 +23,7 @@ public class RGB {
         String[] ary = testInput.split(",");
         double a1 = (double)(Integer.parseInt(ary[1])); 
         double a2 = (double)(Integer.parseInt(ary[2]));
-        double a3 = (double)(Integer.parseInt(ary[3])); 
+        double a3 = (double)(Integer.parseInt(ary[3]));  //Just used to test out the formula for finding the correct color 
         System.out.println(a1);
         System.out.println(a2);
         System.out.println(a3);
